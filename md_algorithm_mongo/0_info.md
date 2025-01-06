@@ -143,6 +143,15 @@
   - 데이터 값을 스케링해 계산의 안전성을 높이고 비교를 용이하게 함
 
 ## 시각화 
+ **1. MD값을 정규화** <br/> 
+
+ **2. MD값 log** <br/> 
+
+ **3. log MD값 정규화 ** <br/> 
+
+
+
+
 - MD -> logMD
 - MD -> normalize
 - MD -> log MD -> normalize

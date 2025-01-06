@@ -1,5 +1,6 @@
 from sklearn.covariance import MinCovDet
 import numpy as np
+import pandas as pd
 
 class MathUtils:
 
@@ -31,5 +32,14 @@ class MathUtils:
     # z값 계산
     def z_scores(df):
          return (df - df.mean()) / df.std()
-       
+    
+    #minmaxscaling(정규화)
+    def minmaxscaling(df):
+    #최대, 최소값을 구하기 위하여 병합
+        #merged_df = pd.concat([df1, df2], axis=0)
+        normalized_values = (df - df.min()) / (df.max()-df.min())
+        nor_df = pd.DataFrame()
+        nor_df['normalized'] = normalized_values
+        return nor_df
+        
 

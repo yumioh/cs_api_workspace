@@ -1,7 +1,7 @@
 import pandas as pd
 import csv
 from math_utils import MathUtils
-import math
+import numpy as np
 
 '''
 MD값 계산 및 정규화
@@ -47,7 +47,7 @@ print("Maximum distance of non-accident : ", max(non_accident_list)) # 139.73527
 print("Minimum distance of nono-accident : ", min(non_accident_list)) # 0.14626488755019176
 
 #파일 저장
-with open("./md_algorithm/data/non_accident_mahal.csv", "w", newline='') as file:
+with open("./md_algorithm_mongo/data/non_accident_mahal.csv", "w", newline='') as file:
     writer = csv.writer(file)
     for item in non_accident_list:
         writer.writerow([item])
@@ -97,8 +97,49 @@ print(non_accident.head())
 print("Maximum distance of accident : ", max(non_accident)) #52.09605332981937
 print("Minimum distance of accident : ", min(non_accident)) #0.14626488755019176
 
-# 이상치 제거한 사고 비사고 데이터 MD값 저장
-accident.to_csv("./md_algorithm/data/accident_md.csv", index = None)
-non_accident.to_csv("./md_algorithm/data/non_accident_md.csv", index = None)
+# 분포가 95%에 해당하는 사고 비사고 데이터 MD값만 저장
+accident.to_csv("./md_algorithm_mongo/data/accident_md.csv", index = None)
+non_accident.to_csv("./md_algorithm_mongo/data/non_accident_md.csv", index = None)
 
+print("--------------------정규화(MD->normalize)-------------------")
+# 데이터 프레임의 결합 순서가 다를 경우 minmax의 결과값이 달라짐 
+# 결합의 순서에 따라 데이터의 최소값과 최대값이 달라질수 있고, 이는 스켈링 결과에 영향을 미침
 
+#사고 데이터 정규화
+accident_normalized = MathUtils.minmaxscaling(accident)
+print("accident 정규화 : ")
+print(accident_normalized.head())
+accident_normalized.to_csv("./md_algorithm_mongo/data/accident_normalized.csv", index = None)
+
+#비사고 데이터 정규화
+non_accident_normalized = MathUtils.minmaxscaling(non_accident)
+print("non_accident 정규화 : ")
+print(non_accident_normalized.head())
+non_accident_normalized.to_csv("./md_algorithm_mongo/data/non_accident_normalized.csv", index = None)
+
+print("-------------------(MD->logMD)-------------------")
+
+accident_log = np.log(accident)
+non_accident_log = np.log(non_accident)
+
+accident_log.to_csv("./md_algorithm_mongo/data/accident_log.csv", index = None)
+non_accident_log.to_csv("./md_algorithm_mongo/data/non_accident_log.csv", index = None)
+
+print("accident_log : ")
+print(accident_log)
+print("non_accident_log : ")
+print(non_accident_log)
+
+print("--------------------정규화(logMD->normalize)-------------------")
+
+# 사고 log 데이터 정규화
+accident_log_normalized = MathUtils.minmaxscaling(accident_log)
+print("accident 정규화 : ")
+print(accident_log_normalized.head())
+accident_log_normalized.to_csv("./md_algorithm_mongo/data/accident_log_normalized.csv", index = None)
+
+#비사고 log 데이터 정규화
+non_accident_log_normalized = MathUtils.minmaxscaling(non_accident_log)
+print("non_accident 정규화 : ")
+print(non_accident_log_normalized.head())
+non_accident_log_normalized.to_csv("./md_algorithm_mongo/data/non_accident_log_normalized.csv", index = None)
