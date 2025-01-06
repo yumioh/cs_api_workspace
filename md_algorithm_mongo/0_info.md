@@ -91,7 +91,7 @@
  - boxplot 분석을 통해 두집단(사고발생집단과 사고 비발생 집단)간에 분포 차이가 크게 나타난 변수들을 선별   <br/>
  
    <div style="display: flex; justify-content: space-between; align-items: center;">
-       <img src="https://github.com/user-attachments/assets/ce457566-96a4-498d-a708-ecd90aa4a3d9" alt="Image 1" style="width: 300px;">
+       <img src="https://github.com/user-attachments/assets/c5eb1425-f1c1-48dd-b85b-5be7f03f1bf0" alt="Image 1" style="width: 300px;">
        <img src="https://github.com/user-attachments/assets/b54f6a3d-87c3-46ff-abfe-7483aab7522d" alt="Image 2" style="width: 300px;">
        <img src="https://github.com/user-attachments/assets/17d5b112-70b1-49f7-b18e-1ea07fc6b068" alt="Image 3" style="width: 300px;">
    </div> 
