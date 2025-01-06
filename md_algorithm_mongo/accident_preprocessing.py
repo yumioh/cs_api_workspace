@@ -36,7 +36,7 @@ df = df.rename(columns={"근무일수" : "근무경력"})
 df["근무경력"] = df["근무경력"].apply(AccidentCategorizer.categrize_service_year)
 
 # 공사규모 카테고리화
-df["공사규모"] = df["공사규모"].apply(AccidentCategorizer.categorize_scale_text)
+df["공사규모"] = df["공사규모"].apply(AccidentCategorizer.categorize_scale_kosha)
 
 # 발생시간 카테고리화
 df["발생시간"] = df["발생시간"].apply(AccidentCategorizer.categorize_time_range)

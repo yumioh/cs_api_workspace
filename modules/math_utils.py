@@ -15,7 +15,7 @@ def robust_cov(df) :
 def calc_Mahalanobis(y=None, data=None, cov=None): 
   
     y_mu = y - np.mean(data, axis=0)  # 각 열(특성)의 평균으로 계산
-    if cov is None: 
+    if cov is None:  
         cov = np.cov(data.T)
     else:
         cov = cov.T  # 공분산 계산

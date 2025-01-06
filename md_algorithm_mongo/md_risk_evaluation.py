@@ -8,6 +8,7 @@ accidents_df = pd.read_csv("./md_algorithm_mongo/data/accidents_preprocessing.cs
 non_accidents = non_accidents_df[["근무경력","나이","발생월","발생시간"]]
 accidents = accidents_df[["근무경력","나이","발생월","발생시간"]]
 
+
 accidents_cov = MathUtils.robust_cov(accidents)
 print("사고데이터 : ", accidents_cov)
 

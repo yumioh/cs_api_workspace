@@ -37,7 +37,6 @@ class AccidentCategorizer:
     #공사규모 카테고리화
     @staticmethod
     def categorize_scale_text(scale) :
-        one = []
         two = ["100인~299인","100인~499인"]
         three = ["10인~99인","50인~99인"]
         four = ["9인~50인"]
@@ -47,6 +46,20 @@ class AccidentCategorizer:
             return 3
         elif scale in four :
             return 4
+        else :
+            return 1
+        
+        #공사규모 카테고리화
+    @staticmethod
+    def categorize_scale_kosha(scale) :
+        if scale in "소소" :
+            return 5
+        elif scale in "소" :
+            return 4
+        elif scale in "중" :
+            return 3
+        elif scale in "대" :
+            return 2
         else :
             return 1
     
