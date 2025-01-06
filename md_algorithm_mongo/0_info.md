@@ -138,8 +138,9 @@
 
  <br/>
 
-  **3. 정규화(minmaxscaling)** <br/> 
-  - 
+  **3. 정규화(Normalization)**  <br/> 
+  - Min-Max Scaling을 통해 데이터를 0~1사이로 변환
+  - 데이터 값을 스케링해 계산의 안전성을 높이고 비교를 용이하게 함
 
 ## 시각화 
 - MD -> logMD
