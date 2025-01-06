@@ -13,7 +13,7 @@ class MathUtils:
     
 
     #마할라노비스 거리 구하기
-    def calc_Mahalanobis(y=None, data=None, cov=None): 
+    def calc_mahalanobis(y=None, data=None, cov=None): 
         y_mu = y - np.mean(data, axis=0)  # 각 열(특성)의 평균으로 계산
         if cov is None:  
             cov = np.cov(data.T)  # 공분산 행렬 계산
@@ -27,3 +27,9 @@ class MathUtils:
         mahal = np.dot(y_mu, np.dot(inv_covmat, y_mu.T))
         #np.sqrt(mahal)
         return mahal
+    
+    # z값 계산
+    def z_scores(df):
+         return (df - df.mean()) / df.std()
+       
+
