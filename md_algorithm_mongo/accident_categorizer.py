@@ -49,7 +49,7 @@ class AccidentCategorizer:
         else :
             return 1
         
-        #공사규모 카테고리화
+    #공사규모 카테고리화
     @staticmethod
     def categorize_scale_kosha(scale) :
         if scale in "소소" :

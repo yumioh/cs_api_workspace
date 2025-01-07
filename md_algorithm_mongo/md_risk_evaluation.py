@@ -16,27 +16,27 @@ accidents_df = pd.read_csv("./md_algorithm_mongo/data/accidents_preprocessing.cs
 non_accidents = non_accidents_df[["근무경력","나이","공사규모","발생시간"]]
 accidents = accidents_df[["근무경력","나이","공사규모","발생시간"]]
 
-#비사고 데이터를 사고 확률이 낮은 데이터로 변환하여, 공분산 계산 시 기준 데이터로
+#비사고 데이터를 사고 확률이 낮은 데이터로 변환하여, 공분산 계산시 기준 데이터로 활용
 robust_cov_df = pd.DataFrame({
-    "근무경력" : np.random.choice([5,6],size=len(non_accidents)), # 3~4년 미만, 4~5년 미만
-    "공사규모 " : non_accidents["공사규모"], # 300인 이상
+    "근무경력" : np.random.randint(4,6,size=len(non_accidents)), #3~4년 미만, 4~5년 미만
+    "공사규모 " : np.random.randint(1,4, size=len(non_accidents)), #300인 이상
     "나이" : np.random.randint(18,24, size=len(non_accidents)), #24세 미만
-    "발생시간" : np.random.choice([5,6,3,2], size=len(non_accidents)) #02~04시, 04~06시, 18~20시, 20~22시, 22~24시
+    "발생시간" : np.random.choice([5,3,4], size=len(non_accidents)) #02~04시, 04~06시, 22~24시
 })
 
 print(robust_cov_df.head())
 
 robust_cov = MathUtils.robust_cov(robust_cov_df)
-print("비사고데이터 : ", robust_cov)
+print("사고 확률이 낮은 데이터 : ", robust_cov.mean()) #0.280054434584566
 
 #사고데이터 Mahalnobis
 accident_list = []
 for value in accidents.values:
-    accident_data = MathUtils.calc_mahalanobis(value, accidents, robust_cov)
+    accident_data = MathUtils.calc_mahalanobis(value, robust_cov_df, robust_cov)
     accident_list.append(accident_data)
 
-print("Maximum distance of accident : ", max(accident_list)) # 69.7224181709437
-print("Minimum distance of accident : ", min(accident_list)) # 0.27380826322991353
+print("Maximum distance of accident : ", max(accident_list)) # 13162.222444444484
+print("Minimum distance of accident : ", min(accident_list)) # 628.6947399558072
 
 #파일 저장
 with open("./md_algorithm_mongo/data/accident_mahal.csv","w") as file :
@@ -47,40 +47,17 @@ with open("./md_algorithm_mongo/data/accident_mahal.csv","w") as file :
 #비사고데이터 Mahalnobis
 non_accident_list = []
 for value in non_accidents.values:
-    non_accident_data = MathUtils.calc_mahalanobis(value, non_accidents, robust_cov)
+    non_accident_data = MathUtils.calc_mahalanobis(value, robust_cov_df, robust_cov)
     non_accident_list.append(non_accident_data)
 
-print("Maximum distance of non-accident : ", max(non_accident_list)) # 139.7352739733086
-print("Minimum distance of nono-accident : ", min(non_accident_list)) # 0.14626488755019176
+print("Maximum distance of non-accident : ", max(non_accident_list)) 
+print("Minimum distance of nono-accident : ", min(non_accident_list)) 
 
 #파일 저장
 with open("./md_algorithm_mongo/data/non_accident_mahal.csv", "w", newline='') as file:
     writer = csv.writer(file)
     for item in non_accident_list:
         writer.writerow([item])
-
-# 사고, 비사고 데이터 합치기 => 데이터 분포를 알기 위함 
-# merged_list = []
-# merged_list.extend(accident_list)
-# merged_list.extend(non_accident_list)
-
-#print(merged_list)
-
-# #log값 변환
-# log_list = []
-# for value in merged_list:
-#     log_list.append(math.log(value))
-
-# print("Maximum log : ", max(log_list))
-# print("Minimum log : ", min(log_list))
-
-# #지수값 값변환
-# exp_list=[]
-# for value in merged_list:
-#     exp_list.append(math.exp(value))
-
-# print("Maximum exp : ", max(exp_list))
-# print("Minimum exp : ", min(exp_list))
 
 # 사고 데이터 MD값 이상치 제거 
 accident_df = pd.Series(accident_list)
@@ -90,9 +67,8 @@ accident_zscores = MathUtils.z_scores(accident_df)
 accident = accident_df[accident_zscores.abs() <= 1.96]
 print("사고 데이터 z-score 값 : ")
 print(accident.head())
-print("Maximum distance of accident: ", max(accident)) # 76.37979015777859
-print("Minimum distance of accident: ", min(accident)) # 2.414332458857211
-
+print("Maximum distance of accident: ", max(accident)) # 9554.874572877601
+print("Minimum distance of accident: ", min(accident)) # 2711.905982356963
 #비사고데이터 MD값 이상치 제거 
 non_accident_df = pd.Series(non_accident_list)
 
@@ -101,8 +77,9 @@ non_accident_zscores = MathUtils.z_scores(non_accident_df)
 non_accident = non_accident_df[non_accident_zscores.abs() <= 1.96]
 print("비사고 데이터 z-score 값 : ")
 print(non_accident.head())
-print("Maximum distance of non_accident : ", max(non_accident)) #43.626652837667194
-print("Minimum distance of non_accident : ", min(non_accident)) #0.09373166813074488
+
+print("Maximum distance of non_accident : ", max(non_accident)) # 76.37979015777859
+print("Minimum distance of non_accident : ", min(non_accident)) # 2.414332458857211
 
 # 분포가 95%에 해당하는 사고 비사고 데이터 MD값만 저장
 accident.to_csv("./md_algorithm_mongo/data/accident_md.csv", index = None)
@@ -140,13 +117,13 @@ print(non_accident_log)
 print("--------------------정규화(logMD->normalize)-------------------")
 
 # 사고 log 데이터 정규화
-accident_log_normalized = MathUtils.minmaxscaling(accident_log)
+accident_log_normalized = MathUtils.minmaxscaling(accident_log, non_accident_log)
 print("accident 정규화 : ")
 print(accident_log_normalized.head())
 accident_log_normalized.to_csv("./md_algorithm_mongo/data/accident_log_normalized.csv", index = None)
 
 #비사고 log 데이터 정규화
-non_accident_log_normalized = MathUtils.minmaxscaling(non_accident_log)
+non_accident_log_normalized = MathUtils.minmaxscaling(non_accident_log, accident_log)
 print("non_accident 정규화 : ")
 print(non_accident_log_normalized.head())
 non_accident_log_normalized.to_csv("./md_algorithm_mongo/data/non_accident_log_normalized.csv", index = None)

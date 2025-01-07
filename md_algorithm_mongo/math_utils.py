@@ -25,7 +25,8 @@ class MathUtils:
         inv_covmat = np.linalg.pinv(cov)
 
         # 마할라노비스 거리 계산
-        mahal = np.dot(y_mu, np.dot(inv_covmat, y_mu.T))
+        left = np.dot(y_mu, inv_covmat)
+        mahal = np.dot(left, y_mu.T)    
         #np.sqrt(mahal)
         return mahal
     

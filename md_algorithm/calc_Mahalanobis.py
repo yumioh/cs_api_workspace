@@ -40,12 +40,13 @@ print("filtered gh data : ", filtered_gh.shape)
 # KOSHA DATA
 kosha_data = kosha_df[["공사규모","발생시간","근무경력","나이"]]
 # kosha_data = kosha_df[["근무경력","나이","월별","요일별"]]
-print("kosha data : ", kosha_data.shape)
+print("kosha data : ", kosha_data.shape) #0.11373263888888892
 
 print("-------------------kosha Mahalanobis 구하기--------------------")
 # 비교할 기본값 filtered gh data
 print(filtered_gh.head())
 test_robust_cov = math_utils.robust_cov(filtered_gh)
+print(test_robust_cov.mean())
 
 kosha_list = []
 for kosha_value in kosha_data.values:
@@ -67,7 +68,7 @@ for gh_value in gh_data.values:
     gh_data = math_utils.calc_Mahalanobis(gh_value, filtered_gh.values, test_robust_cov)
     gh_list.append(gh_data)
 
-print("gh Mahalanobis data :", gh_list)
+#print("gh Mahalanobis data :", gh_list)
 
 
 #LIST 파일 저장
@@ -77,11 +78,11 @@ with open("./md_algorithm/data/gh_Mahal_list.csv", "w", newline='') as file:
         writer.writerow([item])
 
 #MIN & MAX
-print("Maximum distance of KOSHA : ", max(kosha_list))
-print("Maximum distance of KOSHA : ", min(kosha_list))
+print("Maximum distance of KOSHA : ", max(kosha_list)) #386.41985260801107
+print("Maximum distance of KOSHA : ", min(kosha_list)) #3.383339516703705
 
-print("Minimum distance of GH : ", max(gh_list))
-print("Minimum distance of GH : ", min(gh_list))
+print("Minimum distance of GH : ", max(gh_list)) #176.63942691271026
+print("Minimum distance of GH : ", min(gh_list)) #1.8960542643339182
 
 #gh & kosha Data merge
 merged_list = []
