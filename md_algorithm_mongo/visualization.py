@@ -34,8 +34,16 @@ print(accident_md.head())
 
 print("-------------------사고 vs 비사고 MD 정규화 산점도--------------------")  
 
-arranged_accident = accident_md["normalized"].sort_values().reset_index(drop=True)
-arranged_non_accident = non_accident_md["normalized"].sort_values().reset_index(drop=True)
+arranged_accident = pd.read_csv("./md_algorithm_mongo/data/accident_md.csv")
+arranged_non_accident = pd.read_csv("./md_algorithm_mongo/data/non_accident_md.csv")
+print(arranged_accident.head())
+print(arranged_non_accident.head())
+
+# arranged_accident = accident_md1.sort_values().reset_index(drop=True)
+# arranged_non_accident = non_accident_md1.sort_values().reset_index(drop=True)
+
+# print(arranged_accident.describe())
+# print(arranged_non_accident.describe())
 
 plt.scatter(arranged_accident.index, arranged_accident, color="dodgerblue", label="accident",s=8)
 plt.scatter(arranged_non_accident.index, arranged_non_accident, color="orange", alpha=0.4, label="non_accident", s=8)
@@ -64,5 +72,5 @@ plt.xlabel("Index")
 plt.ylabel("MD")
 plt.grid(True)
 plt.legend()
-plt.savefig(f"./md_algorithm_mongo/data/img/scatter_logmd_normalized.png")
+plt.savefig(f"./md_algorithm_mongo/data/img/scatter_logmd.png")
 plt.show()

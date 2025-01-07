@@ -34,10 +34,10 @@ class MathUtils:
          return (df - df.mean()) / df.std()
     
     #minmaxscaling(정규화)
-    def minmaxscaling(df):
+    def minmaxscaling(df1, df2):
     #최대, 최소값을 구하기 위하여 병합
-        #merged_df = pd.concat([df1, df2], axis=0)
-        normalized_values = (df - df.min()) / (df.max()-df.min())
+        merged_df = pd.concat([df1, df2], axis=0)
+        normalized_values = (df1 - merged_df.min()) / (merged_df.max() - merged_df.min())
         nor_df = pd.DataFrame()
         nor_df['normalized'] = normalized_values
         return nor_df
