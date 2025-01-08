@@ -40,12 +40,12 @@ print("filtered gh data : ", filtered_gh.shape)
 # KOSHA DATA
 kosha_data = kosha_df[["공사규모","발생시간","근무경력","나이"]]
 # kosha_data = kosha_df[["근무경력","나이","월별","요일별"]]
-print("kosha data : ", kosha_data.shape) #0.11373263888888892
+print("kosha data : ", kosha_data.shape) 
 
 print("-------------------kosha Mahalanobis 구하기--------------------")
 # 비교할 기본값 filtered gh data
 print(filtered_gh.head())
-test_robust_cov = math_utils.robust_cov(filtered_gh)
+test_robust_cov = math_utils.robust_cov(filtered_gh) #0.11373263888888892
 print(test_robust_cov.mean())
 
 kosha_list = []
@@ -69,7 +69,6 @@ for gh_value in gh_data.values:
     gh_list.append(gh_data)
 
 #print("gh Mahalanobis data :", gh_list)
-
 
 #LIST 파일 저장
 with open("./md_algorithm/data/gh_Mahal_list.csv", "w", newline='') as file:
@@ -106,3 +105,27 @@ for step in merged_list:
 
 print("Maximum exp : ", max(exp_list))
 print("Minimum exp : ", min(exp_list))
+
+import matplotlib.pyplot as plt
+
+plt.hist(kosha_list, bins=30, alpha=0.5, label="Accidents")
+plt.hist(gh_list, bins=30, alpha=0.5, label="Non-Accidents")
+plt.legend()
+plt.title("Mahalanobis Distance Distribution")
+plt.show()
+
+
+# 사고 데이터 평균 벡터
+accident_mean = kosha_df.mean()
+print("사고 데이터 평균:")
+print(accident_mean)
+
+# 비사고 데이터 평균 벡터
+non_accident_mean = gh_df.mean()
+print("비사고 데이터 평균:")
+print(non_accident_mean)
+
+# 차이 계산
+mean_difference = accident_mean - non_accident_mean
+print("평균 벡터 차이:")
+print(mean_difference)

@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from scipy.stats import zscore
 
 # 한글 폰트 설정
 plt.rcParams['font.family'] ='Malgun Gothic'
@@ -61,7 +62,6 @@ print("-------------------사고 vs 비사고 log(MD) 산점도-----------------
 accident_log = pd.read_csv("./md_algorithm_mongo/data/accident_log.csv", header = None)
 non_accident_log = pd.read_csv("./md_algorithm_mongo/data/non_accident_log.csv", header = None)
 
-
 arranged_accident_log = accident_log[0].sort_values().reset_index(drop=True)
 arranged_non_accident_log = non_accident_log[0].sort_values().reset_index(drop=True)
 
@@ -95,3 +95,40 @@ plt.legend()
 plt.savefig(f"./md_algorithm_mongo/data/img/scatter_logmd_normalized.png")
 plt.show()
 
+
+print("-------------------이상치 제거 사고 vs 비사고 log(MD) 정규화 산점도--------------------")  
+# z-score 계산
+# accident_log_z = zscore(arranged_accident_log)
+# non_accident_log_z = zscore(arranged_non_accident_log)
+
+# # 이상치 정의 (z-score의 절대값 > 1.96인 데이터 제거)
+# accident_log_filtered = arranged_accident_log[abs(accident_log_z) <= 1.96]
+# non_accident_log_filtered = arranged_non_accident_log[abs(non_accident_log_z) <= 1.96]
+
+# IQR 계산
+def remove_outliers_iqr(data):
+    Q1 = data.quantile(0.25)
+    Q3 = data.quantile(0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    return data[(data >= lower_bound) & (data <= upper_bound)]
+
+# # 인덱스 재설정
+# accident_log_filtered = accident_log_filtered.reset_index(drop=True)
+# non_accident_log_filtered = non_accident_log_filtered.reset_index(drop=True)
+
+# 이상치 제거
+accident_log_filtered_iqr = remove_outliers_iqr(arranged_accident_log).reset_index(drop=True)
+non_accident_log_filtered_iqr = remove_outliers_iqr(arranged_non_accident_log).reset_index(drop=True)
+
+
+plt.scatter(accident_log_filtered_iqr.index, accident_log_filtered_iqr, color="red", label="사고",s=8)
+plt.scatter(non_accident_log_filtered_iqr.index, non_accident_log_filtered_iqr, color="dodgerblue", alpha=0.4, label="비사고", s=8)
+plt.title(f"이상치 제거 후 사고 vs 비사고 log(MD) 정규화값 산점도",fontdict={'weight': 'bold', 'size' : "15"})
+plt.xlabel("Index")
+plt.ylabel("MD")
+plt.grid(True)
+plt.legend()
+plt.savefig(f"./md_algorithm_mongo/data/img/scatter_logmd_normalized.png")
+plt.show()

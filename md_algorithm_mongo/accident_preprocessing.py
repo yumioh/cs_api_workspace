@@ -41,6 +41,9 @@ df["공사규모"] = df["공사규모"].apply(AccidentCategorizer.categorize_sca
 # 발생시간 카테고리화
 df["발생시간"] = df["발생시간"].apply(AccidentCategorizer.categorize_time_range)
 
+#나이 카테고리
+df["나이"] = df["나이"].apply(AccidentCategorizer.categorize_age_num)
+
 df[["나이","발생일자","발생시간","근무경력","공사규모","발생요일","발생월"]].to_csv("./md_algorithm_mongo/data/accidents_preprocessing.csv", index=None)
 
 
