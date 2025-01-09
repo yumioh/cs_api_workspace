@@ -2,7 +2,7 @@ import pandas as pd
 import csv
 from math_utils import MathUtils
 import numpy as np
-import math
+#import math
 
 '''
 MD값 계산 및 정규화
