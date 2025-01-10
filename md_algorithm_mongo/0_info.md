@@ -175,5 +175,5 @@
   - 향후, MD계산 방식을 활용해 근로자 위험도 산출 가능성을 확인
 
    <div style="display: flex; justify-content: space-between; align-items: center;">
-       <img src="https://github.com/user-attachments/assets/d597a141-cf7a-4fb6-ac6b-e231e1c82b80" alt="Image 1" style="width: 300px;">
+       <img src="https://github.com/user-attachments/assets/d597a141-cf7a-4fb6-ac6b-e231e1c82b80" alt="Image 1" style="width: 500px;">
    </div> 
