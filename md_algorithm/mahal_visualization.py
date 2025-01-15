@@ -118,8 +118,9 @@ plt.rcParams['font.family'] ='Malgun Gothic'
 plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams['boxplot.flierprops.markersize'] = 3
 plt.scatter(gh_normalized_log.index, gh_normalized_log, color="dodgerblue", label="GH",s=8)
-plt.scatter(kosha_normalized_log.index, kosha_normalized_log, color="coral", alpha=0.4, label="KOSHA", s=8)
-plt.title(f"정규화된 GH vs KOSHA (로그 MD)",fontdict={'weight': 'bold', 'size' : "20"})
+plt.scatter(kosha_normalized_log.index, kosha_normalized_log, color="red", alpha=0.4, label="KOSHA", s=8)
+# plt.title(f"정규화된 GH vs KOSHA (로그 MD)",fontdict={'weight': 'bold', 'size' : "20"})
+plt.title(f"사고 vs 비사고 log(MD) 정규화한 산점도",fontdict={'weight': 'bold', 'size' : "20"})
 plt.xlabel("Index")
 plt.ylabel("Normalized Log MD")
 plt.grid(True)

@@ -18,7 +18,7 @@ kosha_file_path = "./md_algorithm/data/kosha_preprocessing.csv"
 gh_save =  "./md_algorithm/data/gh_categorize.csv"
 kosha_save =  "./md_algorithm/data/kosha_categorize.csv"
 
-data = pd.read_csv(gh_file_path)
+data = pd.read_csv(kosha_file_path)
 print(data.head())
 print(data.info())
 
@@ -43,9 +43,9 @@ data["공사규모"] = data["공사규모"].apply(category_utils.categorize_scal
 data["요일별"] = data["요일별"].apply(category_utils.categorize_day_num)
 
 save_data = pd.DataFrame(data)
-save_data.to_csv(gh_save, encoding="utf-8-sig", index=False)
+save_data.to_csv(kosha_save, encoding="utf-8-sig", index=False)
 
 #파일 이름만 추출
-file_name = os.path.basename(gh_save)
+file_name = os.path.basename(kosha_save)
 print(f"{file_name} data : ", save_data.head())
 print(f"{file_name} info : ", save_data.info())

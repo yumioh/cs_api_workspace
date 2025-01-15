@@ -16,7 +16,7 @@ GH(비사고 데이터)
 
 #GH 파일 데이터 들고 오기
 #gh_df = pd.read_excel("./md_algorithm/data/gh_accident_cases_240924.xlsx")
-gh_df = pd.read_excel("./md_algorithm/data/gh_accident_cases_240924_1.xlsx")
+gh_df = pd.read_excel("./md_algorithm/data/gh_accident_cases_240924.xlsx")
 # print("GH 데이터 INFO :", gh_df.info())
 print(gh_df.head())
 
@@ -48,7 +48,7 @@ gh_df.rename(columns={'경력일수':'근무경력'}, inplace=True)
 #요일 한글로 변경
 gh_df["요일별"]= gh_df["요일"].apply(category_utils.day_to_korean)
 
-gh_df[["공사규모","발생시간","근무경력","나이","월별","요일별","위험도"]].to_csv("./md_algorithm/data/gh_preprocessing.csv"
+gh_df[["공사규모","발생시간","근무경력","나이","월별","요일별"]].to_csv("./md_algorithm/data/gh_preprocessing.csv"
                                                    ,encoding="utf-8",index=False)
 print("저장할 데이터 head :", gh_df)
 print("저장할 데이터 shape :", gh_df.shape)
