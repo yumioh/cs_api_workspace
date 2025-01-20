@@ -17,6 +17,8 @@ class MongoDBHandler:
     
     def fetch_data(self, query={}, projection=None) :
         cursor = self.collection.find(query, projection)
+        print(cursor)
+        #DataFrame으로 변환
         return pd.DataFrame(list(cursor))
     
     def close_connetion(self) :

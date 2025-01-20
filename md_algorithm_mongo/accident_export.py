@@ -1,4 +1,4 @@
-from md_algorithm_mongo.mongo_utils import MongoDBHandler
+from mongo_utils import MongoDBHandler
 from datetime import datetime
 
 
@@ -20,7 +20,7 @@ if __name__ == "__main__":
     }
 
     non_accident_data = mongo_handler.fetch_data(query, projection)
-
+    
     # 데이터 저장
     today = datetime.now().strftime("%Y%m%d")
     output_file = f"./md_algorithm_mongo/data/accidents_{today}.csv"
