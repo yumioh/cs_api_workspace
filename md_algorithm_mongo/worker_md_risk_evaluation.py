@@ -2,6 +2,7 @@ import pandas as pd
 import csv
 from math_utils import MathUtils
 import numpy as np
+import matplotlib.pyplot as plt
 #import math
 
 '''
@@ -132,9 +133,6 @@ non_accident_log_normalized = MathUtils.minmaxscaling(non_accident_log, accident
 print("non_accident 정규화 : ")
 print(non_accident_log_normalized.head())
 non_accident_log_normalized.to_csv("./md_algorithm_mongo/data/non_accident_log_normalized.csv", index = None)
-
-
-import matplotlib.pyplot as plt
 
 plt.hist(accident_list, bins=30, alpha=0.5, label="Accidents")
 plt.hist(non_accident_list, bins=30, alpha=0.5, label="Non-Accidents")

@@ -3,14 +3,14 @@ from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
 
 # 데이터 로드
-csi_gongjong = pd.read_excel('./mongoDB/data/사고비사고데이터 공종별_항목정리.xlsx', sheet_name="CSI 공종항목")
-riskzero_categories = pd.read_excel('./mongoDB/data/사고비사고데이터 공종별_항목정리.xlsx', sheet_name="리스크제로 공종별항목")
+csi_gongjong = pd.read_excel('./md_algorithm_mongo/data/사고비사고데이터 공종별_항목정리.xlsx', sheet_name="CSI 공종항목")
+riskzero_categories = pd.read_excel('./md_algorithm_mongo/data/사고비사고데이터 공종별_항목정리.xlsx', sheet_name="리스크제로 공종별항목")
 
 print(csi_gongjong.head())
 
 # 특정 열 선택
-csi_gongjong_list = csi_gongjong["공종_중분류"].tolist()  # "공종" 열 이름 확인 필요
-riskzero_list = riskzero_categories["공종"].tolist()  # "공종_중분류" 열 이름 확인 필요
+csi_gongjong_list = csi_gongjong["작업명"].tolist()  # "공종" 열 이름 확인 필요
+riskzero_list = riskzero_categories["작업명"].tolist()  # "공종_중분류" 열 이름 확인 필요
 
 # 고유값 추출
 unique_gongjong = list(set(csi_gongjong_list))
@@ -37,4 +37,4 @@ result = pd.DataFrame({"공종_중분류": csi_gongjong_list, "공종": mapped_c
 print(result)
 
 # 결과 저장
-result.to_excel('./mongoDB/data/공종_중분류_매핑결과.xlsx', index=False)
+result.to_excel('./md_algorithm_mongo/data/공종_중분류_매핑결과.xlsx', index=False)

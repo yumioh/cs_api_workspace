@@ -2,6 +2,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+''''
+- 이상치 제거 
+- 정규화 
+'''
+
 class DataProcessor :
 
     @classmethod
