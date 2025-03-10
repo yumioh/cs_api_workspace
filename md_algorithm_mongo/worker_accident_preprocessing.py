@@ -11,7 +11,6 @@ from accident_categorizer import AccidentCategorizer
 
 df = pd.read_csv("./md_algorithm_mongo/data/accidents_20241212.csv", index_col=None)
 
-#이상치제거 : CSI 사고 데이터 삭제 : 약 27000건
 df = df.dropna(axis=0)
 
 #제거 후 KOSHA 데이터 수 : 62277건
