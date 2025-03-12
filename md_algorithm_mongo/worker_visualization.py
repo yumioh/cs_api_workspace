@@ -20,7 +20,7 @@ plt.xticks([1, 2], ['accident', 'non_accident'])
 plt.savefig(f"./md_algorithm_mongo/data/img/MD_boxplot.png")
 #plt.show()
 
-print("-------------------사고 vs 비사고 MD 정규화 boxplot --------------------")  
+print("-------------------사고 vs 비사고 MD 정규화 boxplot--------------------")  
 
 accident_md = pd.read_csv("./md_algorithm_mongo/data/accident_normalized.csv")
 non_accident_md = pd.read_csv("./md_algorithm_mongo/data/non_accident_normalized.csv")
@@ -40,8 +40,8 @@ arranged_non_accident = pd.read_csv("./md_algorithm_mongo/data/non_accident_md.c
 print(arranged_accident.head())
 print(arranged_non_accident.head())
 
-# arranged_accident = accident_md1.sort_values().reset_index(drop=True)
-# arranged_non_accident = non_accident_md1.sort_values().reset_index(drop=True)
+arranged_accident = arranged_accident.sort_values(by="0").reset_index(drop=True)
+arranged_non_accident = arranged_non_accident.sort_values(by="0").reset_index(drop=True)
 
 # print(arranged_accident.describe())
 # print(arranged_non_accident.describe())
@@ -96,7 +96,7 @@ plt.savefig(f"./md_algorithm_mongo/data/img/scatter_logmd_normalized.png")
 plt.show()
 
 
-print("-------------------이상치 제거 사고 vs 비사고 log(MD) 정규화 산점도--------------------")  
+print("-------------------이상치 제거 후 사고 vs 비사고 log(MD) 정규화 산점도--------------------")  
 # z-score 계산
 # accident_log_z = zscore(arranged_accident_log)
 # non_accident_log_z = zscore(arranged_non_accident_log)
@@ -122,7 +122,7 @@ def remove_outliers_iqr(data):
 accident_log_filtered_iqr = remove_outliers_iqr(arranged_accident_log).reset_index(drop=True)
 non_accident_log_filtered_iqr = remove_outliers_iqr(arranged_non_accident_log).reset_index(drop=True)
 
-
+print(non_accident_log_filtered_iqr.index[:10])
 plt.scatter(accident_log_filtered_iqr.index, accident_log_filtered_iqr, color="red", label="사고",s=8)
 plt.scatter(non_accident_log_filtered_iqr.index, non_accident_log_filtered_iqr, color="dodgerblue", alpha=0.4, label="비사고", s=8)
 plt.title(f"이상치 제거 후 사고 vs 비사고 log(MD) 정규화값 산점도",fontdict={'weight': 'bold', 'size' : "15"})

@@ -18,20 +18,14 @@ accidents_df = pd.read_csv("./md_algorithm_mongo/data/accidents_preprocessing.cs
 non_accidents = non_accidents_df[["근무경력","나이","공사규모","발생시간"]]
 accidents = accidents_df[["근무경력","나이","공사규모","발생시간"]]
 
-#비사고 데이터를 사고 확률이 낮은 데이터로 변환하여, 공분산 계산시 기준 데이터로 활용
+# 비사고 데이터를 사고 확률이 낮은 데이터로 변환하여, 공분산 계산시 기준 데이터로 활용 
+# => 적절한 thresold 그리기 위하여 비사고데이터 조정 필요 => 임계값 : 0.8242453625154367
 robust_cov_df = pd.DataFrame({
-    "근무경력" : np.random.randint(1,3,size=len(non_accidents)), # 2~3년 미만, 3~4년 미만, 4~5년 미만, 
-    "공사규모 " : np.random.randint(1,2, size=len(non_accidents)), #500인 이상
-    "나이" : np.random.randint(2,3, size=len(non_accidents)), #30세 미만
-    "발생시간" : np.random.randint(1,4, size=len(non_accidents)) # 02~04시, 04~06시, 20~22시, 22~24시 
+    "근무경력" : np.random.randint(1,2,size=len(non_accidents)), # 2~3년 미만, 3~4년 미만, 4~5년 미만, 
+    "공사규모 " : np.random.randint(1,3, size=len(non_accidents)), #500인 이상
+    "나이" : np.random.randint(1,3, size=len(non_accidents)), #30세 미만
+    "발생시간" : np.random.randint(1,3, size=len(non_accidents)) # 02~04시, 04~06시, 20~22시, 22~24시 
 })
-
-# robust_cov_df = pd.DataFrame({
-#     "근무경력" : np.random.randint(7,8, size=len(non_accidents)), #5년 이상
-#     "공사규모 " : np.random.randint(1,4, size=len(non_accidents)), # 전체
-#     "나이" : np.random.randint(2,3, size=len(non_accidents)), 
-#     "발생시간" : np.random.randint(1,4, size=len(non_accidents))
-# })
 
 #print(robust_cov_df.head())
 
@@ -93,7 +87,7 @@ non_accident.to_csv("./md_algorithm_mongo/data/non_accident_md.csv", index = Non
 
 print("--------------------정규화(MD->normalize)-------------------")
 # 데이터 프레임의 결합 순서가 다를 경우 minmax의 결과값이 달라짐 
-# 결합의 순서에 따라 데이터의 최소값과 최대값이 달라질수 있고, 이는 스켈링 결과에 영향을 미침
+# 결합의 순서에 따라 데이터의 최소값과 최대값이 달라질 수 있고, 이는 스켈링 결과에 영향을 미침
 
 #사고 데이터 정규화
 accident_normalized = MathUtils.minmaxscaling(accident, non_accident)
